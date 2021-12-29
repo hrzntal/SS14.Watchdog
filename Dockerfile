@@ -1,5 +1,10 @@
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 
+RUN apt-get update \
+  && apt-get install -y \
+    dos2unix
+
+
 WORKDIR /build
 COPY SS14.Watchdog/ .
 RUN dotnet restore
