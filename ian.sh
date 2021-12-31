@@ -32,4 +32,4 @@ if [ ! -f "$CONFIG_TARGET" ]; then
   exit 1
 fi
 
-exec ./SS14.Watchdog/
+exec ./SS14.Watchdog $@
