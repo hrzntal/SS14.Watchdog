@@ -1,4 +1,4 @@
-﻿# App config in container volume
+# App config in container volume
 CONFIG_VOLUME="/app_config/appsettings.yml"
 # App config in volatile storage
 CONFIG_TARGET="/app/appsettings.yml"
@@ -32,4 +32,4 @@ if [ ! -f "$CONFIG_TARGET" ]; then
   exit 1
 fi
 
-exec ./SS14.Watchdog $@
+exec ./SS14.Watchdog "$@"
