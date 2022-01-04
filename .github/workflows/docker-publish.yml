@@ -71,6 +71,13 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
+      # Convert the image name to lowercase because GHCR
+      # only uses lowercase image names.
+      - id: lowercase-imagename
+        uses: ASzc/change-string-case-action@4d84fb9df37c8b29a946df7f4c5db8a2a4d91c3e
+        with:
+          string: ${{ env.IMAGE_NAME }}
+
       # Sign the resulting Docker image digest except on PRs.
       # This will only write to the public Rekor transparency log when the Docker
       # repository is public to avoid leaking data.  If you would like to publish
@@ -82,4 +89,4 @@ jobs:
           COSIGN_EXPERIMENTAL: "true"
         # This step uses the identity token to provision an ephemeral certificate
         # against the sigstore community Fulcio instance.
-        run: cosign sign ${{ env.REGISTRY }}/${${{ env.LOWERCASE_IMAGE_NAME }},,}@${{ steps.build-and-push.outputs.digest }}
+        run: cosign sign ${{ env.REGISTRY }}/${{ steps.lowercase-imagename.outputs.lowercase }}@${{ steps.build-and-push.outputs.digest }}
