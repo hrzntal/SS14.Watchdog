@@ -15,21 +15,24 @@ echo "
 "
 
 if [ ! -f "$CONFIG_VOLUME" ]; then
-  echo "daemon configuration not found, copying from deployment"
+  echo "Daemon configuration not found, copying from deployment..."
   # Copy fresh config to mount
   cp $CONFIG_TARGET $CONFIG_VOLUME
 fi
 
 # Delete the fresh config
+echo "Wiping volatile config..."
 rm $CONFIG_TARGET
 
 # Symlink the real config to the app dir
+echo "Linking mounted config to watchdog..."
 ln -vsf $CONFIG_VOLUME $CONFIG_TARGET
 
 # Check if we succeeded with creating the link
 if [ ! -f "$CONFIG_TARGET" ]; then
-  echo "failed to create symlink for config!"
+  echo "Failed to create symlink for config!"
   exit 1
 fi
 
+echo "Handing over to Ian!"
 exec ./SS14.Watchdog "$@"
