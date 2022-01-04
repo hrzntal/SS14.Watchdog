@@ -1,9 +1,7 @@
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 
 RUN apt-get update \
-  && apt-get install -y \
-    dos2unix
-
+  && apt-get install -y dos2unix
 
 WORKDIR /build
 
@@ -20,14 +18,24 @@ COPY ian.sh ian.sh
 RUN dos2unix ian.sh
 
 
-FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS app
+FROM mcr.microsoft.com/dotnet/aspnet:6.0-alpine AS app
+
+RUN apk update && apk add --no-cache \
+  ca-certificates \
+  gcompat \
+  icu-libs
 
 COPY --from=build /app /app
-COPY --from=build /build/ian.sh ian.sh
+COPY --from=build /build/ian.sh /app/ian.sh
+
+WORKDIR /app
 
 EXPOSE 1212/tcp
 EXPOSE 1212/udp
 
+ENV ASPNETCORE_URLS=http://+:5000
+ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false
+
 VOLUME ["/app/instances", "/app_config"]
 
-ENTRYPOINT ["./ian.sh"]
+ENTRYPOINT ["/bin/sh", "./ian.sh"]
