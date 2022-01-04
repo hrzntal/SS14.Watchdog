@@ -3,7 +3,15 @@ CONFIG_VOLUME="/app_config/appsettings.yml"
 # App config in volatile storage
 CONFIG_TARGET="/app/appsettings.yml"
 
-echo "
+# The things Ian can say
+IAN_NOISES=("Woof" "Bork" "Bark" "Wau" "Ruff" "Hau Hau" "Awroo")
+# Random number from 0 to 32767
+RANDOM=$$$(date +%s)
+DOG_NOISE=${IAN_NOISES[$RANDOM % ${#RANDOM[@]}]}
+
+bs_print () { echo "[IAN BOOTSTRAP] "$@"" }
+
+bs_print "
 ######\  ######\  ##\   ##\ 
 \_##  _|##  __##\ ###\  ## |
   ## |  ## /  ## |####\ ## |   The Nanotrasen approved
@@ -15,24 +23,24 @@ echo "
 "
 
 if [ ! -f "$CONFIG_VOLUME" ]; then
-  echo "Daemon configuration not found, copying from deployment..."
+  bs_print "Daemon configuration not found, copying from deployment..."
   # Copy fresh config to mount
   cp $CONFIG_TARGET $CONFIG_VOLUME
 fi
 
 # Delete the fresh config
-echo "Wiping volatile config..."
+bs_print "Wiping volatile config..."
 rm $CONFIG_TARGET
 
 # Symlink the real config to the app dir
-echo "Linking mounted config to watchdog..."
+bs_print "Linking mounted config to watchdog..."
 ln -vsf $CONFIG_VOLUME $CONFIG_TARGET
 
 # Check if we succeeded with creating the link
 if [ ! -f "$CONFIG_TARGET" ]; then
-  echo "Failed to create symlink for config!"
+  bs_print "Failed to create symlink for config!"
   exit 1
 fi
 
-echo "Handing over to Ian!"
+bs_print "Handing over to Ian! $DOG_NOISE"
 exec ./SS14.Watchdog "$@"
