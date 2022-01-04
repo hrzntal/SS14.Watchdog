@@ -28,7 +28,7 @@ fi
 
 # Delete the fresh config
 bs_print "Wiping volatile config..."
-rm -v $CONFIG_TARGET
+rm -vf $CONFIG_TARGET
 
 # Symlink the real config to the app dir
 bs_print "Linking mounted config to watchdog..."
