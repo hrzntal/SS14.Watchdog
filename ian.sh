@@ -23,12 +23,12 @@ echo "
 if [ ! -f "$CONFIG_VOLUME" ]; then
   bs_print "Daemon configuration not found, copying from deployment..."
   # Copy fresh config to mount
-  cp $CONFIG_TARGET $CONFIG_VOLUME
+  cp -v $CONFIG_TARGET $CONFIG_VOLUME
 fi
 
 # Delete the fresh config
 bs_print "Wiping volatile config..."
-rm $CONFIG_TARGET
+rm -v $CONFIG_TARGET
 
 # Symlink the real config to the app dir
 bs_print "Linking mounted config to watchdog..."
