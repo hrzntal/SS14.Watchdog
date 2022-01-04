@@ -40,5 +40,5 @@ if [ ! -f "$CONFIG_TARGET" ]; then
   exit 1
 fi
 
-bs_print "Handing over to Ian! $IAN_NOISE"
+bs_print "Handing over to Ian! $IAN_NOISE!\n"
 exec ./SS14.Watchdog "$@"
