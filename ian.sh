@@ -5,7 +5,7 @@ CONFIG_TARGET="/app/appsettings.yml"
 
 # The things Ian can say, one will be picked at random
 IAN_NOISE=`echo "Woof Bork Bark Wau Ruff Hauhau Awroo" |
-  awk 'BEGIN { srand() } {split($0,a); a[1+int(rand()*length(a))]}'`
+  awk 'BEGIN { srand() } {split($0,a); print a[1+int(rand()*length(a))]}'`
 
 bs_print () { echo "[IAN BOOTSTRAP] ""$@"""; }
 
