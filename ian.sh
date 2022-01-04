@@ -7,9 +7,9 @@ CONFIG_TARGET="/app/appsettings.yml"
 IAN_NOISE=`echo "Woof Bork Bark Wau Ruff Hauhau Awroo" |
   awk 'BEGIN { srand() } {split($0,a); print a[1+int(rand()*length(a))]}'`
 
-bs_print () { echo "[IAN BOOTSTRAP] ""$@"""; }
+bs_print () { printf '%s\n' "[IAN BOOTSTRAP] ""$@"""; }
 
-echo "
+printf '%s\n' "
   ######\  ######\  ##\   ##\ 
   \_##  _|##  __##\ ###\  ## |
     ## |  ## /  ## |####\ ## |   The Nanotrasen approved
@@ -40,5 +40,5 @@ if [ ! -f "$CONFIG_TARGET" ]; then
   exit 1
 fi
 
-bs_print "Handing over to Ian! $IAN_NOISE!\n"
+bs_print "Handing over to Ian! $IAN_NOISE!" ''
 exec ./SS14.Watchdog "$@"
