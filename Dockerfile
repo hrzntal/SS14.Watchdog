@@ -7,7 +7,7 @@ WORKDIR /build
 
 COPY SS14.Watchdog/ .
 
-RUN dotnet restore
+RUN dotnet restore -r linux-x64
 
 RUN dotnet publish -c Release -r linux-x64 --no-self-contained
 
