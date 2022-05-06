@@ -23,7 +23,8 @@ FROM mcr.microsoft.com/dotnet/aspnet:6.0-alpine AS app
 RUN apk update && apk add --no-cache \
   ca-certificates \
   gcompat \
-  icu-libs
+  icu-libs \
+  git
 
 COPY --from=build /app /app
 COPY --from=build /build/ian.sh /app/ian.sh
